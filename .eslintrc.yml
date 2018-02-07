@@ -1,0 +1,35 @@
+root: true
+
+env:
+  es6: true
+  browser: true
+
+parser: 'babel-eslint'
+
+globals:
+  angular: true
+
+extends:
+  - airbnb-base
+
+parserOptions:
+  sourceType: module
+
+rules:
+  indent:
+    - error
+    - 4
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always
+  camelcase: 0
+  strict: 0
+  max-len: [1, { code: 120 }]
+  comma-dangle: ['error', 'only-multiline']
+  no-param-reassign: 0

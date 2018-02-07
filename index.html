@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style src="./node_modules/normalize.css/normalize.css"></style>
+</head>
+<body>
+    <div id="container">
+        <ng-sms-editor ng-model="ctrl.content" insert-text="ctrl.insertText"></ng-sms-editor>
+    </div>
+
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./src/index.js"></script>
+    <script>
+        var app = angular.module('module', ['ng-sms-editor']);
+
+        app.value('version', '0.1.0');
+        app.controller('ctrl', function CountCtrl() {
+            this.content = 4;
+            this.insertText = '';
+        });
+
+        angular.element().ready(function () {
+            // 设置作用域范围
+            // 代替 ng-app=""
+            // var context = document.getElementById('container');
+            var context = document.getElementsByTagName('body');
+            angular.bootstrap(context, [app.name]);
+        });
+    </script>
+</body>
+</html>
