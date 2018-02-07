@@ -40,8 +40,6 @@ export default angular.module('ng-sms-editor', [])
                 options.placeholder = attr.placeholder;
             }
 
-            console.log(element[0]);
-
             const quill = new Quill(element[0], options);
 
             // 填充文本

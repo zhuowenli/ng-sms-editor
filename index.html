@@ -8,25 +8,22 @@
     <style src="./node_modules/normalize.css/normalize.css"></style>
 </head>
 <body>
-    <div id="container">
-        <ng-sms-editor ng-model="ctrl.content" insert-text="ctrl.insertText"></ng-sms-editor>
+    <div ng-controller="ctrl">
+        <ng-sms-editor ng-model="content" insert-text="insertText"></ng-sms-editor>
     </div>
-
     <script src="./node_modules/angular/angular.min.js"></script>
     <script src="./src/index.js"></script>
     <script>
         var app = angular.module('module', ['ng-sms-editor']);
 
         app.value('version', '0.1.0');
-        app.controller('ctrl', function CountCtrl() {
-            this.content = 4;
-            this.insertText = '';
-        });
+
+        app.controller("ctrl", ["$scope", function($scope) {
+            $scope.content = '#买家昵称# 你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：#手淘短链#';
+            $scope.insertText = '';
+        }]);
 
         angular.element().ready(function () {
-            // 设置作用域范围
-            // 代替 ng-app=""
-            // var context = document.getElementById('container');
             var context = document.getElementsByTagName('body');
             angular.bootstrap(context, [app.name]);
         });
