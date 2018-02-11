@@ -12,11 +12,11 @@ import smsEditor from './editor';
 const template = `
 <section class="ng-sms-editor">
     <header class="ng-sms-editor__header">
-        <span class="text">插入</span>
+        <span class="sms-text">插入</span>
         <a href="javascript:;"
             ng-repeat="label in ctrl.labels"
             ng-click="ctrl.insert(label)"
-            class="label label-{{label.type}}"
+            class="sms-label sms-label-{{label.type}}"
         >{{label.name}}</a>
         <div class="sms-custom" ng-transclude="header"></div>
     </header>
