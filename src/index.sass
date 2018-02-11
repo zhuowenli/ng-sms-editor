@@ -4,6 +4,8 @@
  * @Date: 2018-02-07 17:12:53
  */
 
+$blue: #45a3f8
+
 ng-sms-editor
     display: block
     width: 100%
@@ -16,9 +18,8 @@ ng-sms-editor
         outline: 0
         line-height: 1.5
         color: #333333
-        border: 1px solid #ccc
         mark
-            color: #45a3f8
+            color: $blue
             background-color: transparent
         p
             white-space: pre-wrap
@@ -30,3 +31,84 @@ ng-sms-editor
         overflow-y: hidden
         position: absolute
         top: 50%
+
+.ng-sms-editor
+    position: relative;
+    width: 580px;
+    border: 1px solid #d3d4e2;
+    box-sizing: border-box;
+    a
+        color: $blue
+        text-decoration: none
+        &:hover
+            color: #2b81ec;
+    &__header
+        display: flex
+        padding: 0 16px;
+        line-height: 40px;
+        background-color: #eff0f9;
+        font-size: 12px;
+        .sms-text
+            margin-right: 8px
+        .sms-label
+            margin-right: 4px
+    &__footer
+        display: flex
+        padding: 0 16px;
+        line-height: 40px;
+        background-color: #eff0f9;
+        font-size: 12px;
+        .sms-total
+            em
+                color: #f22821;
+                font-style: normal
+        .sms-rule
+            position: relative;
+            color: #45a3f8;
+            cursor: pointer
+            &:hover .sms-tooltip
+                display: block
+
+        .sms-tooltip
+            display: none
+            position: absolute
+            top: -170px;
+            left: -110px;
+            width: 260px;
+            text-align: left;
+            padding-bottom: 12px;
+            &-arrow
+                position: absolute;
+                bottom: 12px;
+                left: 130px;
+                z-index: 2;
+                display: block;
+                &:before
+                    content: "";
+                    position: absolute;
+                    top: -5px;
+                    left: 0;
+                    z-index: 1;
+                    width: 10px;
+                    height: 10px;
+                    display: block;
+                    border-bottom: 1px solid #d3d4e2;
+                    border-right: 1px solid #d3d4e2;
+                    transform: rotate(45deg);
+                    background: #fff;
+            &-inner
+                border-color: #d3d4e2;
+                background: #fff;
+                color: #999;
+                border-radius: 3px;
+                padding: 12px;
+                max-height: 152px;
+                overflow-y: auto;
+                border-width: 1px;
+                border-style: solid;
+                font-size: 12px;
+                line-height: 20px;
+                p
+                    margin: 0
+    .sms-custom
+        flex: 1

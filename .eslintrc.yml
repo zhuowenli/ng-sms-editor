@@ -33,3 +33,6 @@ rules:
   max-len: [1, { code: 120 }]
   comma-dangle: ['error', 'only-multiline']
   no-param-reassign: 0
+  class-methods-use-this: 0
+  guard-for-in: 0
+  no-restricted-syntax: 0

@@ -5,22 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style src="./node_modules/normalize.css/normalize.css"></style>
 </head>
 <body>
     <div ng-controller="ctrl">
-        <ng-sms-editor ng-model="content" insert-text="insertText"></ng-sms-editor>
+        <ng-sms-editor content="content" labels="smsOptions.labels" sign-content="smsOptions.sign_content">
+            <slot-header>xxx</slot-header>
+            <slot-footer>xxx</slot-footer>
+        </ng-sms-editor>
     </div>
     <script src="./node_modules/angular/angular.min.js"></script>
     <script src="./src/index.js"></script>
     <script>
         var app = angular.module('module', ['ng-sms-editor']);
 
-        app.value('version', '0.1.0');
-
         app.controller("ctrl", ["$scope", function($scope) {
-            $scope.content = '#买家昵称# 你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：#手淘短链#';
-            $scope.insertText = '';
+            $scope.content = '#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：';
+
+            $scope.smsOptions = {
+                content: '',
+                sign_content: '淘宝',
+                signContentDiy: '无敌美店',
+                showSignContentDiy: true,
+                diyType: 'verify',
+                labels: [
+                    {
+                        name: '#店铺名称#',
+                        type: 'placeholder',
+                        placeholder: '无敌美店'
+                    },
+                    {
+                        name: '#买家姓名#',
+                        type: 'placeholder',
+                        placeholder: '张三三'
+                    },
+                    {
+                        name: '#买家昵称#',
+                        type: 'placeholder',
+                        placeholder: 'tb88888_2017'
+                    },
+                ],
+                tmpls: null,
+                tmplsMap: {},
+                hideTmplTabs: false,
+                multivariate: [],
+                type: null
+            };
+
+            $scope.$watch('content', res => console.log(res))
         }]);
 
         angular.element().ready(function () {
