@@ -28,7 +28,9 @@ class ngSmsEditor {
      * @param {Object} label 标签
      */
     insert(label) {
-        if (label.name === '#店铺名称#') {
+        if (label.insertText) {
+            this.insertText = label.insertText;
+        } else if (label.name === '#店铺名称#') {
             this.insertText = label.placeholder ? label.placeholder : label.name;
         } else if (label.type === 'placeholder') {
             this.insertText = label.name;
