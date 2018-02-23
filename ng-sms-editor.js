@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({4:[function(require,module,exports) {
 /*
  * @Author: 卓文理
  * @Email: 531840344@qq.com
@@ -82,7 +82,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = angular.module('ng-sms-editor', []);
-},{}],19:[function(require,module,exports) {
+},{}],21:[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -198,7 +198,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],18:[function(require,module,exports) {
+},{}],20:[function(require,module,exports) {
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -284,7 +284,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],20:[function(require,module,exports) {
+},{}],19:[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
@@ -2084,7 +2084,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":19,"ieee754":18,"isarray":20,"buffer":16}],14:[function(require,module,exports) {
+},{"base64-js":21,"ieee754":20,"isarray":19,"buffer":16}],10:[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 /*!
  * Quill Editor v1.3.5
@@ -13488,7 +13488,7 @@ module.exports = __webpack_require__(63);
 /***/ })
 /******/ ])["default"];
 });
-},{"buffer":16}],22:[function(require,module,exports) {
+},{"buffer":16}],13:[function(require,module,exports) {
 /**
  * This library modifies the diff-patch-match library by Neil Fraser
  * by removing the patch and match functionality and certain advanced
@@ -14228,7 +14228,7 @@ function merge_tuples (diffs, start, length) {
   return diffs;
 }
 
-},{}],24:[function(require,module,exports) {
+},{}],18:[function(require,module,exports) {
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -14239,7 +14239,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],25:[function(require,module,exports) {
+},{}],17:[function(require,module,exports) {
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -14261,7 +14261,7 @@ function unsupported(object){
     false;
 };
 
-},{}],21:[function(require,module,exports) {
+},{}],15:[function(require,module,exports) {
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -14357,7 +14357,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/keys.js":24,"./lib/is_arguments.js":25}],23:[function(require,module,exports) {
+},{"./lib/keys.js":18,"./lib/is_arguments.js":17}],14:[function(require,module,exports) {
 'use strict';
 
 var hasOwn = Object.prototype.hasOwnProperty;
@@ -14445,7 +14445,7 @@ module.exports = function extend() {
 	return target;
 };
 
-},{}],17:[function(require,module,exports) {
+},{}],12:[function(require,module,exports) {
 var equal = require('deep-equal');
 var extend = require('extend');
 
@@ -14586,7 +14586,7 @@ Iterator.prototype.peekType = function () {
 
 module.exports = lib;
 
-},{"deep-equal":21,"extend":23}],15:[function(require,module,exports) {
+},{"deep-equal":15,"extend":14}],11:[function(require,module,exports) {
 var diff = require('fast-diff');
 var equal = require('deep-equal');
 var extend = require('extend');
@@ -14913,7 +14913,7 @@ Delta.prototype.transformPosition = function (index, priority) {
 
 module.exports = Delta;
 
-},{"fast-diff":22,"deep-equal":21,"extend":23,"./op":17}],11:[function(require,module,exports) {
+},{"fast-diff":13,"deep-equal":15,"extend":14,"./op":12}],7:[function(require,module,exports) {
 /*
  * @Author: 卓文理
  * @Email: 531840344@qq.com
@@ -14978,7 +14978,7 @@ MarkBlot.blotName = 'mark';
 MarkBlot.tagName = 'mark';
 
 exports.default = MarkBlot;
-},{"quill":14}],13:[function(require,module,exports) {
+},{"quill":10}],9:[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -15009,7 +15009,7 @@ function getBaseURL(url) {
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 
-},{}],12:[function(require,module,exports) {
+},{}],8:[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -15041,13 +15041,13 @@ function reloadCSS() {
 
 module.exports = reloadCSS;
 
-},{"./bundle-url":13}],10:[function(require,module,exports) {
+},{"./bundle-url":9}],6:[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
-},{"_css_loader":12}],9:[function(require,module,exports) {
+},{"_css_loader":8}],5:[function(require,module,exports) {
 /*
  * @Author: 卓文理
  * @Email: 531840344@qq.com
@@ -15206,7 +15206,7 @@ require('./index.sass');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _quill2.default.register(_mark2.default);
-},{"quill":14,"quill-delta":15,"./plugin/mark":11,"./index.sass":10}],6:[function(require,module,exports) {
+},{"quill":10,"quill-delta":11,"./plugin/mark":7,"./index.sass":6}],3:[function(require,module,exports) {
 /*
  * @Author: 卓文理
  * @Email: 531840344@qq.com
@@ -15391,7 +15391,7 @@ exports.default = _module3.default.directive('smsEditor', _editor2.default).comp
         footer: '?slotFooter'
     }
 });
-},{"./module":8,"./editor":9}],26:[function(require,module,exports) {
+},{"./module":4,"./editor":5}],22:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -15411,7 +15411,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '51225' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '53989' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -15512,5 +15512,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[26,6])
+},{}]},{},[22,3])
 //# sourceMappingURL=/dist/ng-sms-editor.map
