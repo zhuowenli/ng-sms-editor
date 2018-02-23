@@ -2,10 +2,11 @@
   "name": "ng-sms-editor",
   "version": "1.0.0",
   "description": "SMS editor for Angular.js",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build src/index.js",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "eslint": "^4.17.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "gh-pages": "^1.1.0",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0",
     "parcel-bundler": "^1.5.1"
