@@ -5,8 +5,8 @@
   "main": "dist/ng-sms-editor.js",
   "scripts": {
     "dev": "parcel index.html",
-    "build": "rm -rf dist && parcel build src/index.js",
-    "predeploy": "parcel build index.html -d dist --public-url .",
+    "build": "rm -rf dist && parcel build src/ng-sms-editor.js",
+    "predeploy": "rm -rf dist && parcel build index.html -d dist --public-url .",
     "deploy": "gh-pages -d dist"
   },
   "files": ["dist/", "src/", "index.html", "package.json"],
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/zhuowenli/ng-sms-editor#readme",
   "devDependencies": {
-    "angular": "^1.6.9",
+    "angular": "^1.5.7",
     "babel-eslint": "^8.2.1",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.17.0",

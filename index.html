@@ -23,7 +23,7 @@
         </ng-sms-editor>
     </div>
     <script src="./node_modules/angular/angular.min.js"></script>
-    <script src="./src/index.js"></script>
+    <script src="./src/ng-sms-editor.js"></script>
     <script>
         var app = angular.module('module', ['ng-sms-editor']);
 
@@ -48,7 +48,7 @@
                 },
             ];
 
-            $scope.$watch('content', function() {
+            $scope.$watch('content', function(res) {
                 console.log(res);
             });
         }]);

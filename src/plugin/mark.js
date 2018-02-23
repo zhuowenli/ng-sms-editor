@@ -4,15 +4,13 @@
  * @Date: 2018-02-07 16:40:25
  */
 
-'use strict';
-
 import Quill from 'quill';
 
 const BlockEmbed = Quill.import('blots/embed');
 
 class MarkBlot extends BlockEmbed {
     static create({ value, id }) {
-        let node = super.create();
+        const node = super.create();
         node.innerText = value;
         node.setAttribute('data-id', id);
         return node;

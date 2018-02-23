@@ -4,8 +4,6 @@
  * @Date: 2018-02-07 16:33:23
  */
 
-'use strict';
-
 // import angular from 'angular';
 import Quill from 'quill';
 import Delta from 'quill-delta';
