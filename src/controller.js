@@ -15,12 +15,12 @@ class ngSmsEditor {
         this.labels = this.labels || [];
         this.placeholderMap = this.genPlaceholderMap(this.labels);
 
-        $scope.$watch('ctrl.labels', (newValue) => {
+        $scope.$watch('$ctrl.labels', (newValue) => {
             if (newValue && newValue.length) {
                 this.placeholderMap = this.genPlaceholderMap(this.labels);
             }
         }, true);
-        $scope.$watch('ctrl.content', () => this.countContentLen());
+        $scope.$watch('$ctrl.content', () => this.countContentLen());
     }
 
     /**
