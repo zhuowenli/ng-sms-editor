@@ -7,7 +7,7 @@
 ## 快速开始
 
 ```html
-<ng-sms-editor content="content" labels="labels" sign-content="sign_content">
+<ng-sms-editor sms-options="smsOptions">
     <slot-header class="custom-header">自定义头部</slot-header>
     <slot-footer class="custom-footer">自定义底部</slot-footer>
 </ng-sms-editor>
@@ -17,25 +17,27 @@
 var app = angular.module('module', ['ng-sms-editor']);
 
 app.controller("defaultCtrl", ["$scope", function($scope) {
-    $scope.content = '#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：';
-    $scope.sign_content = '淘宝';
-    $scope.labels = [
-        {
-            name: '#店铺名称#',
-            type: 'placeholder',
-            placeholder: '无敌美店'
-        },
-        {
-            name: '#买家姓名#',
-            type: 'placeholder',
-            placeholder: '张三三'
-        },
-        {
-            name: '#买家昵称#',
-            type: 'placeholder',
-            placeholder: 'tb88888_2017'
-        },
-    ];
+    $scope.smsOptions = {
+        content: '#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：',
+        sign_content: '淘宝',
+        labels: [
+            {
+                name: '#店铺名称#',
+                type: 'placeholder',
+                placeholder: '无敌美店'
+            },
+            {
+                name: '#买家姓名#',
+                type: 'placeholder',
+                placeholder: '张三三'
+            },
+            {
+                name: '#买家昵称#',
+                type: 'placeholder',
+                placeholder: 'tb88888_2017'
+            },
+        ],
+    };
 }]);
 ```
 
@@ -48,6 +50,14 @@ app.controller("defaultCtrl", ["$scope", function($scope) {
 - Type: `String`
 - Required: true
 - Default: `''`
+
+### contentLength
+
+短信文本长度
+
+- Type: `Number`
+- Required: false
+- Default: `0`
 
 ### labels
 

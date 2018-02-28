@@ -12,16 +12,16 @@ const template = `
     <header class="ng-sms-editor__header">
         <span class="sms-text">插入</span>
         <a href="javascript:;"
-            ng-repeat="label in $ctrl.labels"
+            ng-repeat="label in $ctrl.smsOptions.labels"
             ng-click="$ctrl.insert(label)"
             class="sms-label sms-label-{{label.type}}"
         >{{label.name}}</a>
         <div class="sms-custom" ng-transclude="header"></div>
     </header>
-    <sms-editor ng-model="$ctrl.content" insert-text="$ctrl.insertText"></sms-editor>
+    <sms-editor ng-model="$ctrl.smsOptions.content" insert-text="$ctrl.insertText"></sms-editor>
     <footer class="ng-sms-editor__footer">
         <div class="sms-custom" ng-transclude="footer"></div>
-        <span class="sms-total">已输入 <em>{{$ctrl.contentLength}}</em> 个字，共计 <em>{{$ctrl.countSms()}}</em> 条短信</span>
+        <span class="sms-total">已输入 <em>{{$ctrl.smsOptions.contentLength}}</em> 个字，共计 <em>{{$ctrl.countSms()}}</em> 条短信</span>
         <span class="sms-rule">
             计费规则
             <div class="sms-tooltip">
@@ -44,9 +44,8 @@ angular.module('ng-sms-editor', [])
         template,
         controller,
         bindings: {
-            content: '=',
-            labels: '<',
-            signContent: '='
+            smsOptions: '=',
+            insertText: '<'
         },
         transclude: {
             header: '?slotHeader',
