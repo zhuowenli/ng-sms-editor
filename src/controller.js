@@ -44,14 +44,14 @@ class ngSmsEditor {
      * @return {number} 短信条数
      */
     countSms() {
-        const smsLen = this.contentLength;
+        const smsLen = this.smsOptions.contentLength;
         let smsCount = 1;
 
         if (smsLen > 70) {
             smsCount = Math.ceil(smsLen / 67);
         }
 
-        this.smsCount = smsCount;
+        this.smsOptions.smsCount = smsCount;
         return smsCount;
     }
 
