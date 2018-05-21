@@ -38,17 +38,28 @@ const template = `
 </section>
 `;
 
-angular.module('ng-sms-editor', [])
-    .directive('smsEditor', directive)
-    .component('ngSmsEditor', {
-        template,
-        controller,
-        bindings: {
-            smsOptions: '=',
-            insertText: '<'
-        },
-        transclude: {
-            header: '?slotHeader',
-            footer: '?slotFooter'
-        },
-    });
+function createModule(angular) {
+    angular.module('ng-sms-editor', [])
+        .directive('smsEditor', directive)
+        .component('ngSmsEditor', {
+            template,
+            controller,
+            bindings: {
+                smsOptions: '=',
+                insertText: '<'
+            },
+            transclude: {
+                header: '?slotHeader',
+                footer: '?slotFooter'
+            },
+        });
+}
+
+const { define } = window;
+
+if (define && define.amd) {
+    define(['angular'], createModule);
+} else {
+    createModule(angular);
+}
+
