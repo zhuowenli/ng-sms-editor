@@ -43,14 +43,13 @@ export default function () {
             // 填充文本
             ngModel.$render = () => {
                 const value = ngModel.$viewValue;
+                const textLength = quill.getLength();
+
+                if (textLength) {
+                    quill.deleteText(0, textLength);
+                }
 
                 if (value) {
-                    const textLength = quill.getLength();
-
-                    if (textLength) {
-                        quill.deleteText(0, textLength);
-                    }
-
                     value.replace(/#[^a-z0-9A-Z]+?#/g, text => `@@@${text}@@@`)
                         .split('@@@')
                         .filter(x => x)

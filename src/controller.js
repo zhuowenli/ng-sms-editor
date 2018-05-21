@@ -11,16 +11,18 @@ class ngSmsEditor {
         this.$sce = $sce;
 
         this.insertText = '';
-        this.content = this.content || '';
-        this.labels = this.labels || [];
-        this.placeholderMap = this.genPlaceholderMap(this.labels);
+        this.smsOptions = this.smsOptions || {};
+        this.smsOptions.content = this.smsOptions.content || '';
+        this.smsOptions.labels = this.smsOptions.labels || [];
+        this.smsOptions.contentLength = this.smsOptions.contentLength || 0;
+        this.placeholderMap = this.genPlaceholderMap(this.smsOptions.labels);
 
-        $scope.$watch('$ctrl.labels', (newValue) => {
+        $scope.$watch('$ctrl.smsOptions.labels', (newValue) => {
             if (newValue && newValue.length) {
-                this.placeholderMap = this.genPlaceholderMap(this.labels);
+                this.placeholderMap = this.genPlaceholderMap(this.smsOptions.labels);
             }
         }, true);
-        $scope.$watch('$ctrl.content', () => this.countContentLen());
+        $scope.$watch('$ctrl.smsOptions.content', () => this.countContentLen());
     }
 
     /**
@@ -42,14 +44,14 @@ class ngSmsEditor {
      * @return {number} 短信条数
      */
     countSms() {
-        const smsLen = this.contentLength;
+        const smsLen = this.smsOptions.contentLength;
         let smsCount = 1;
 
         if (smsLen > 70) {
             smsCount = Math.ceil(smsLen / 67);
         }
 
-        this.smsCount = smsCount;
+        this.smsOptions.smsCount = smsCount;
         return smsCount;
     }
 
@@ -98,7 +100,7 @@ class ngSmsEditor {
         let contentParsered;
         let contentLength;
         let realContent;
-        const { content } = this;
+        const { content } = this.smsOptions;
 
         if (content) {
             contentParsered = this.replaceLabels(content);
@@ -114,7 +116,7 @@ class ngSmsEditor {
             this.realContent = realContent;
             // 7 = 2('【】') + 5(' 退订回T');
 
-            this.contentLength = this.signContent.length + contentLength + 7;
+            this.smsOptions.contentLength = this.smsOptions.sign_content.length + contentLength + 7;
         }
     }
 }
