@@ -1,0 +1,261 @@
+<section class="ng-sms-editor">
+    <header class="ng-sms-editor__header">
+        <span class="sms-text">插入</span>
+        <a href="javascript:;"
+            ng-if="$ctrl.smsOptions.type === 'mobile' && $ctrl.smsOptions.multivariate.length > 0"
+            ng-repeat="label in $ctrl.smsOptions.multivariate"
+            class="sms-label sms-label__placeholder"
+            ng-click="$ctrl.onInsertLabel(label)"
+        >{{label | label}}</a>
+        <a href="javascript:;"
+            ng-repeat="label in $ctrl.smsOptions.labels"
+            ng-click="$ctrl.onInsertLabel(label)"
+            class="sms-label sms-label__{{label.type}}"
+        >{{label.name | label}}</a>
+    </header>
+
+    <sms-editor-content
+        ng-model="$ctrl.smsOptions.content"
+        insert-text="$ctrl.insertText"
+        labels="$ctrl.smsOptions.labels"
+    ></sms-editor-content>
+
+    <footer class="ng-sms-editor__footer">
+        <!-- 短信签名 -->
+        <div class="sms-sign"
+            ng-if="$ctrl.smsOptions.showDiySigns === undefined || $ctrl.smsOptions.showDiySigns">
+            <span>签名</span>
+            <select class="ui-select ui-select-small ui-select-smseditor" ng-model="$ctrl.smsOptions.sign_content">
+                <option ng-if="$ctrl.smsOptions.showSignContentDiy"
+                        ng-repeat="sign in $ctrl.diySigns | filter:$ctrl.signsFilter track by $index"
+                        ng-value="sign">{{sign}}</option>
+            </select>
+            &emsp;<a href="javascript:;" ng-click="$ctrl.onDiySign()">自定义签名</a>
+        </div>
+
+        <!-- 字数统计 -->
+        <span class="sms-total">
+            已输入 <em>{{$ctrl.smsOptions.contentLength}}</em> 个字，共计 <em>{{$ctrl.countSms()}}</em> 条短信
+        </span>
+        <span class="sms-rule">
+            <i class="icon-info"></i>
+            <div class="sms-tooltip">
+                <i class="sms-tooltip-arrow"></i>
+                <div class="sms-tooltip-inner">
+                    <p>1、70字计1条短信收费，超出70字按67字每条计。</p>
+                    <p>2、一个汉字，字母或标点都算一个字。</p>
+                    <p>3、自动替换的内容以实际发送为准，有可能超过默认字数。</p>
+                    <p>4、受短信运营商限制，签名和退订回T，包含在字数中</p>
+                </div>
+            </div>
+        </span>
+    </footer>
+
+    <div class="ui-sms-preview">
+        <div class="ui-sms-content"><span ng-if="$ctrl.smsOptions.showDiySigns === undefined || $ctrl.smsOptions.showDiySigns">【{{$ctrl.smsOptions.sign_content}}】</span><span ng-bind-html="$ctrl.contentParsered"></span>&nbsp;退订回T</div>
+        <i class="icon-sms-tail"></i>
+    </div>
+</section>
+
+<!-- 提示 -->
+<div class="ui-sms-editor-message" ng-show="$ctrl.urlWithSpaceEnd"><em>提示：链接后面必须有空格，否则链接无效</em></div>
+<div class="ui-sms-editor-message" ng-show="$ctrl.urlWithSpaceStart"><em>提示：链接前面必须有空格，否则链接无效</em></div>
+<div class="ui-sms-editor-message" ng-show="$ctrl.invalidSmsShown"><em>提示：短信内容不能包含 “【” 和 “】”</em></div>
+<div class="ui-sms-editor-warn" ng-show="$ctrl.illegalContentVar"><em>温馨提示：短信中的 <span>{{$ctrl.illegalContentVar}}</span> 只是普通文本，不是变量哦</em></div>
+
+<!-- 选择优惠券弹窗 -->
+<div dialog
+    dialog-open-model="$ctrl.dialogCoupon"
+    title="优惠券-淘短链生成器"
+    show-close-button="true"
+    yes-text="生成并插入"
+    dialog-on-yes="$ctrl.onInsertCoupon()"
+    padding="0px">
+    <div class="ng-sms-editor-coupon">
+        <p class="tips">
+            <span ng-if="$ctrl.couponsList.length > 0">为避免手机端无法领取，创建时请选择 <span class="tips-msg">“店铺优惠券”-“自有渠道推广”-”通用领券链接“</span>选项。</span>
+            <span ng-if="$ctrl.couponsList.length <= 0">只能选择官方创建的优惠券，您还没有创建哦。</span>
+            <span ng-if="$ctrl.couponsList.length <= 0">为避免手机端无法领取，创建时请选择 <span class="tips-msg">“店铺优惠券”-“自有渠道推广”-”通用领券链接“</span>选项。</span>
+            <a href="//aliyx.taobao.com/coupon" target="_blank">点击进入官方创建</a>&nbsp;&nbsp;
+            <a href="//help.huanleguang.com/helper/index/listarticle?article_id=335&version_type=1" target="_blank">查看教程</a>
+        </p>
+
+        <div class="coupon">
+            <div
+                class="coupon__item"
+                ng-class="{'coupon__item--selected': coupon.couponid === $ctrl.selectedCoupon.couponid}"
+                ng-repeat="coupon in $ctrl.couponsList"
+                ng-click="$ctrl.selectedCoupon = coupon"
+            >
+                <i class="select-icon"></i>
+                <div class="coupon-inner">
+                    <span class="price">
+                        <span class="rmb">¥</span>{{coupon.price}}
+                    </span>
+                    <div class="info">
+                        <p class="limit">{{coupon.des}}</p>
+                        <p class="time">{{coupon.start_date}}~{{coupon.end_date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义短链弹窗 -->
+<div dialog
+    dialog-open-model="$ctrl.dialogCustom"
+    title="自定义页面-淘短链生成器"
+    show-close-button="true"
+    yes-text="生成并插入"
+    dialog-on-yes="$ctrl.onInsertCustom()"
+    padding="0px">
+    <div class="ng-sms-editor-custom">
+        <p class="tips">直接将您希望生成短链的网址复制到输入框即可</p>
+        <div class="custom">
+            <label class="custom__label">输入链接：</label>
+            <input class="custom__input" type="text" placeholder="仅支持 taobao.com、tmall.com、jaeapp.com" ng-model="$ctrl.customUrl">
+        </div>
+    </div>
+</div>
+
+<!-- 短信模板弹窗 -->
+<div dialog
+    dialog-open-model="$ctrl.dialogSmsTmpl"
+    dialog-on-yes="$ctrl.changeTmpl();"
+    yes-text="确认使用"
+    dialog-on-no="true"
+    no-text="取消"
+    show-close-button="true"
+    padding="0"
+    width="480px"
+    class-name="dialog-sms-tmpl"
+    title="推荐模板"
+>
+    <div>
+        <div class="tmpl-tabs" ng-if="!$ctrl.smsOptions.hideTmplTabs">
+            <ul>
+                <li class="tabs-cell" ng-repeat="item in $ctrl.smsOptions.tmpls">
+                    <a href="javascript:;" ng-click="$ctrl.currentTabId = item.id" ng-class="{current: $ctrl.currentTabId === item.id}">{{item.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tmpl-list">
+            <label class="ui-radio" ng-repeat="tmpl in $ctrl.smsOptions.tmplsMap[$ctrl.currentTabId].templets">
+                <input type="radio" name="sms-radio-tmpl" ng-model="$ctrl.tmplModel" ng-value="tmpl">
+                <span class="text">{{tmpl.content}}</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div ng-controller="diySignContentVerifyCtrl">
+    <div dialog="{title: '我的自定义签名'}"
+        dialog-open-model="model.openDiySignContentDialog"
+        show-close-button="true"
+        padding="14px 30px 36px"
+        width="450px"
+        dialog-on-hide="hideDialog()"
+        class-name="dialog-diy-signcontent">
+        <div class="diy-sign-panel">
+            <table>
+                <tr>
+                    <th>签名</th>
+                    <th class="status">状态</th>
+                    <th class="operator">操作</th>
+                </tr>
+                <tr ng-repeat="item in diySigns track by $index" class="sign-{{$index}}" ng-if="$index < 3">
+                    <td>
+                        <label>
+                            <input type="text" name="sign_content" placeholder="请填写签名..."
+                                class="ui-input ui-input-fat input-diy-sign"
+                                ng-class="{'ui-input-error':item.dirty && item.hasError && item.submitted, 'input-fail':item.status == 4}"
+                                ng-model="item.sign_content"
+                                ng-change="item.submitted = false;"
+                                ng-disabled="item.status != -1"
+                                tabindex="{{$index+1}}">
+                        </label>
+                        <div class="msg-error msg-error-sign" ng-if="item.dirty && item.submitted">
+                            <p ng-if="item.errors.required">亲，签名不能为空</p>
+                            <p ng-if="item.errors.hasTaobao">自定义签名不能出现“淘宝，天猫”字样，建议直接使用店铺名哦~</p>
+                            <p ng-if="item.errors.illegalChar">亲，签名不能含有/_...=%#【】等特殊符号和空格</p>
+                            <p ng-if="item.errors.noZH">亲，签名必须包含汉字，请重新输入</p>
+                            <p ng-if="item.errors.length">亲，签名字数限定2-20个字，请重新输入</p>
+                        </div>
+                    </td>
+                    <td class="status">
+                        <em class="msg-error" ng-if="item.status == 4">未通过</em>
+                        <span class="msg-unpend" ng-if="item.status == -1">未提交</span>
+                        <span class="msg-pending" ng-if="item.status == 0">审核中</span>
+                        <span class="msg-pass" ng-if="item.status == 2">已通过</span>
+                    </td>
+                    <td class="operator">
+                        <a  href="javascript:;"
+                            class="ui-btn"
+                            ng-click="addDiySignContent(item)"
+                            ng-if="item.status == -1">提交</a>
+                        <a  href="javascript:;"
+                            class="ui-btn"
+                            ng-click="removeDiySignContent(item)"
+                            ng-if="item.status != -1 && item.status != 0 && item.status != 1">删除</a>
+                    </td>
+                </tr>
+            </table>
+
+            <p class="tip" ng-if="pendingSign > 0">
+                <i class="icon-notification"></i>
+                审核需约24小时，通过后短信提醒您：{{mobileText}}
+                <a href="javascript:;" ng-click="openBindPhone()">修改</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div ng-controller="diySignContentCtrl">
+    <div dialog="{title:'我的自定义签名'}"
+        dialog-open-model="model.openDiySignContentDialog"
+        dialog-on-no="true"
+        yes-no="取消"
+        show-close-button="true"
+        padding="40px 0"
+        width="450"
+        class-name="dialog-diy-signcontent">
+        <div class="diy-sign-content">
+            <label>
+                签名：
+                <input  type="text" name="sign_content" placeholder="自定义签名"
+                        class="ui-input ui-input-fat"
+                        ng-class="{'ui-input-error':diySign.dirty && diySign.hasError && diySign.submitted}"
+                        ng-change="diySign.submitted = false;"
+                        ng-model="diySign.sign_content">
+
+                <div style="color: #eb5955;height: 21px;margin-top: 5px;font-size: 13px;">
+                    <div ng-if="diySign.dirty && diySign.submitted">
+                        <p ng-if="diySign.errors.required">亲，签名不能为空</p>
+                        <p ng-if="diySign.errors.hasTaobao">自定义签名不能出现“淘宝，天猫”字样，建议直接使用店铺名哦~</p>
+                        <p ng-if="diySign.errors.illegalChar">亲，签名不能含有/_...=%#【】等特殊符号和空格</p>
+                        <p ng-if="diySign.errors.noZH">亲，签名必须包含汉字，请重新输入</p>
+                        <p ng-if="diySign.errors.length">亲，签名字数限定2-20个字，请重新输入</p>
+                    </div>
+                </div>
+            </label>
+            <a  href="javascript:;"
+                ng-click="changeDiySignContent(diySign)"
+                class="ui-btn ui-btn-small ui-btn-light ui-btn-yes">确认</a>
+        </div>
+    </div>
+</div>
+
+<!-- 宝贝选择弹窗 -->
+<dialog-goods-filter
+    show="$ctrl.dialogItemsFilter"
+    type="'radio'"
+    title="'宝贝-淘短链生成器'"
+    on-save="$ctrl.onInsertItems"
+    choose="$ctrl.chooseList"
+    care-type="'sms-editor'"
+></dialog-goods-filter>
+
+<!-- 手机号绑定弹窗 -->
+<ng-bind-phone show="$ctrl.dialogBindPhone" from="$ctrl.dialogBindPhoneFrom"></ng-bind-phone>
+
