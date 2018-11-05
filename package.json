@@ -4,8 +4,8 @@
   "description": "SMS editor for Angular.js",
   "main": "dist/ng-sms-editor.js",
   "scripts": {
-    "dev": "./node_modules/.bin/bili -w --format es,umd,umd-min",
-    "build": "rm -rf dist && ./node_modules/.bin/bili --format es,umd,umd-min",
+    "dev": "./node_modules/.bin/bili -w --format es,umd,umd-min --plugin html",
+    "build": "rm -rf dist && ./node_modules/.bin/bili --format es,umd,umd-min --plugin html",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -41,7 +41,8 @@
     "eslint-plugin-import": "^2.8.0",
     "gh-pages": "^1.1.0",
     "node-sass": "^4.7.2",
-    "normalize.css": "^7.0.0"
+    "normalize.css": "^7.0.0",
+    "rollup-plugin-html": "^0.2.1"
   },
   "dependencies": {
     "jquery": "^3.3.1",

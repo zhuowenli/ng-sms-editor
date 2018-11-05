@@ -4,69 +4,11 @@
  * @Date: 2018-02-08 14:37:19
  */
 
-// import $ from 'jquery';
-// import app from './module';
 import app from './components';
 import smsEditorContent from './sms-editor-content';
-// import template from './template.html';
+import template from './template.html';
 import './resource';
 import './index.sass';
-
-const template = `
-    <section class="ng-sms-editor">
-        <header class="ng-sms-editor__header">
-            <span class="sms-text">插入</span>
-            <a href="javascript:;"
-                ng-if="$ctrl.smsOptions.type === 'mobile' && $ctrl.smsOptions.multivariate.length > 0"
-                ng-repeat="label in $ctrl.smsOptions.multivariate"
-                class="sms-label sms-label__placeholder"
-                ng-click="$ctrl.onInsertLabel(label)"
-            >{{label | label}}</a>
-            <a href="javascript:;"
-                ng-repeat="label in $ctrl.smsOptions.labels"
-                ng-click="$ctrl.onInsertLabel(label)"
-                class="sms-label sms-label__{{label.type}}"
-            >{{label.name | label}}</a>
-            <div class="sms-custom" ng-transclude="header"></div>
-        </header>
-
-        <sms-editor-content
-            ng-model="$ctrl.smsOptions.content"
-            insert-text="$ctrl.insertText"
-            labels="$ctrl.smsOptions.labels"
-        ></sms-editor-content>
-
-        <footer class="ng-sms-editor__footer">
-            <div class="sms-custom" ng-transclude="footer"></div>
-            <span class="sms-total">
-                已输入 <em>{{$ctrl.smsOptions.contentLength}}</em> 个字，共计 <em>{{$ctrl.countSms()}}</em> 条短信
-            </span>
-            <span class="sms-rule">
-                <i class="icon-info"></i>
-                <div class="sms-tooltip">
-                    <i class="sms-tooltip-arrow"></i>
-                    <div class="sms-tooltip-inner">
-                        <p>1、70字计1条短信收费，超出70字按67字每条计。</p>
-                        <p>2、一个汉字，字母或标点都算一个字。</p>
-                        <p>3、自动替换的内容以实际发送为准，有可能超过默认字数。</p>
-                        <p>4、受短信运营商限制，签名和退订回T，包含在字数中</p>
-                    </div>
-                </div>
-            </span>
-        </footer>
-
-        <div class="ui-sms-preview" ng-if="$ctrl.smsOptions.showPreview">
-            <div class="ui-sms-content"><span ng-if="$ctrl.smsOptions.showDiySigns === undefined || $ctrl.smsOptions.showDiySigns">【{{$ctrl.smsOptions.sign_content}}】</span><span ng-bind-html="$ctrl.contentParsered"></span>&nbsp;退订回T</div>
-            <i class="icon-sms-tail"></i>
-        </div>
-    </section>
-
-    <!-- 提示 -->
-    <div class="ui-sms-editor-message" ng-show="$ctrl.urlWithSpaceEnd"><em>提示：链接后面必须有空格，否则链接无效</em></div>
-    <div class="ui-sms-editor-message" ng-show="$ctrl.urlWithSpaceStart"><em>提示：链接前面必须有空格，否则链接无效</em></div>
-    <div class="ui-sms-editor-message" ng-show="$ctrl.invalidSmsShown"><em>提示：短信内容不能包含 “【” 和 “】”</em></div>
-    <div class="ui-sms-editor-warn" ng-show="$ctrl.illegalContentVar"><em>温馨提示：短信中的 <span>{{$ctrl.illegalContentVar}}</span> 只是普通文本，不是变量哦</em></div>
-`;
 
 class ngSmsEditor {
     /** 短信签名 */
@@ -185,30 +127,6 @@ class ngSmsEditor {
     }
 
     init() {
-    }
-
-    /**
-     * 获取默认模板
-     *
-     * @param  {Array} tmpls 短信模板列表
-     * @return {Object} templetModel 默认模板在数组中的索引
-     */
-    getDefaultTmpl(tmpls) {
-        let templetModel = {
-            content: '',
-            is_default: false,
-            templet_id: 0
-        };
-
-        for (let m = 0; m < tmpls.length; m += 1) {
-            for (let n = 0; n < tmpls[m].templets.length; n += 1) {
-                if (tmpls[m].templets[n].is_default) {
-                    templetModel = tmpls[m].templets[n];
-                }
-            }
-        }
-
-        return templetModel;
     }
 
     /**
@@ -391,17 +309,6 @@ class ngSmsEditor {
         }
 
         return value;
-    }
-
-    /**
-     * 签名过滤器
-     *
-     * @param {String} sign 签名
-     * @returns {Boolean}
-     * @memberof ngSmsEditor
-     */
-    signsFilter(sign) {
-        return sign !== '';
     }
 }
 
