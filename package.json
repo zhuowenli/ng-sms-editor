@@ -7,7 +7,8 @@
     "dev": "./node_modules/.bin/bili -w --format es,umd,umd-min --plugin html",
     "build": "rm -rf dist && ./node_modules/.bin/bili --format es,umd,umd-min --plugin html",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "publish": "npm publish --registry http://registry.npmjs.org"
   },
   "files": [
     "dist/",
