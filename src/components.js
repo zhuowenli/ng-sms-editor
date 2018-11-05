@@ -4,5 +4,5 @@
  * @Date: 2018-11-02 14:20:03
  */
 
-export default angular.module('hlgcomponent', []);
+export default angular.module('hlg.component', []);
 
