@@ -4,12 +4,9 @@
  * @Date: 2018-02-07 16:33:23
  */
 
-// import angular from 'angular';
 import Quill from 'quill';
 import Delta from 'quill-delta';
 import MarkBlot from './plugin/mark';
-
-import './index.sass';
 
 Quill.register(MarkBlot);
 
@@ -19,7 +16,7 @@ export default function () {
         require: 'ngModel',
         scope: {
             insertText: '=',
-            key: '<',
+            labels: '<', // 默认短信变量
         },
         link($scope, element, attr, ngModel) {
             if (!ngModel) return;
@@ -43,20 +40,36 @@ export default function () {
             // 填充文本
             ngModel.$render = () => {
                 const value = ngModel.$viewValue;
-                const textLength = quill.getLength();
-
-                if (textLength) {
-                    quill.deleteText(0, textLength);
-                }
 
                 if (value) {
-                    value.replace(/#[^a-z0-9A-Z]+?#/g, text => `@@@${text}@@@`)
+                    const length = quill.getLength();
+                    const labels = [];
+
+                    // 短信变量
+                    if ($scope.labels && $scope.labels.length) {
+                        $scope.labels.map((item) => {
+                            if (typeof item === 'string') {
+                                labels.push(item);
+                            } else if (item.name) {
+                                labels.push(item.name);
+                            }
+                        });
+                    }
+
+                    if (length) {
+                        quill.deleteText(0, length);
+                    }
+
+                    value.replace(/#(?!\s*#)[^#]+#/g, text => `@@@${text}@@@`)
                         .split('@@@')
                         .filter(x => x)
                         .map((text, inx) => {
                             const length = quill.getLength();
 
-                            if (/#[^a-z0-9A-Z]+#/.test(text)) {
+                            // 如果不是 ## 包裹的内容，直接插入文本
+                            // ## 包裹的内容：没有传默认短信变量，插入变量
+                            // ## 包裹的内容：有传默认短信变量、并且文本在默认短信变量内，插入变量
+                            if (/#(?!\s*#)[^#]+#/.test(text) && (!labels.length || labels.indexOf(text) >= 0)) {
                                 const id = parseInt(Math.random() * 1e8, 10);
                                 quill.insertEmbed(length - 1, 'mark', { value: text, id }, Quill.sources.USER);
                                 quill.insertText(length, ' ');
@@ -67,8 +80,6 @@ export default function () {
                             } else {
                                 quill.insertText(length - 1, text);
                             }
-
-                            return text;
                         });
                 }
             };
@@ -110,7 +121,21 @@ export default function () {
 
                 ops.map((item) => {
                     if (item.insert) {
-                        text += typeof item.insert === 'object' ? item.insert.mark : item.insert.trim();
+                        if (typeof item.insert === 'object') {
+                            text += /短?链接?/.test(item.insert.mark) ? ` ${item.insert.mark} ` : item.insert.mark;
+                        } else if (
+                            /^\s*[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&/\/=]*)?./
+                                .test(item.insert)
+                        ) {
+                            text += ` ${item.insert.trim()} `;
+                        } else if (
+                            /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&/\/=]*)?.\s*$/
+                                .test(item.insert)
+                        ) {
+                            text += `${item.insert.trim()} `;
+                        } else {
+                            text += item.insert.trim();
+                        }
                     }
                     return item;
                 });
@@ -121,17 +146,26 @@ export default function () {
                 ngModel.$setViewValue(text);
             });
 
-            const emoji = /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\ude4f]|\ud83d[\ude80-\udeff]|\ud83e[\udd10-\udd80]/g;
+            quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node) => {
+                const { innerText } = node;
+                const text = /^\s*c\.tb\.cn/.test(innerText) ? innerText : innerText.trim();
 
-            // 过滤剪贴板emoji字符
-            quill.clipboard.addMatcher(
-                Node.ELEMENT_NODE,
-                node => new Delta().insert(node.innerText.trim().replace(emoji, ''))
-            );
-            quill.clipboard.addMatcher(
-                Node.TEXT_NODE,
-                node => new Delta().insert(node.data.trim().replace(emoji, ''))
-            );
+                return new Delta().insert(text.replace(
+                    /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\ude4f]|\ud83d[\ude80-\udeff]|\ud83e[\udd10-\udd80]/g,
+                    ''
+                ));
+            });
+
+            quill.clipboard.addMatcher(Node.TEXT_NODE, (node) => {
+                const { data } = node;
+                const text = /^\s*c\.tb\.cn/.test(data) ? data : data.trim();
+
+                // 过滤emoji
+                return new Delta().insert(text.replace(
+                    /\ud83c[\udf00-\udfff]|\ud83d[\udc00-\ude4f]|\ud83d[\ude80-\udeff]|\ud83e[\udd10-\udd80]/g,
+                    ''
+                ));
+            });
         },
     };
 }
