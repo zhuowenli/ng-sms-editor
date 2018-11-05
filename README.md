@@ -20,6 +20,7 @@ app.controller("defaultCtrl", ["$scope", function($scope) {
     $scope.smsOptions = {
         content: '#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：',
         sign_content: '淘宝',
+        showPreview: true,
         labels: [
             {
                 name: '#店铺名称#',
@@ -82,3 +83,11 @@ app.controller("defaultCtrl", ["$scope", function($scope) {
     },
 ]
 ```
+
+### showPreview
+
+显示手机预览效果
+
+- Type: `Boolean`
+- Required: false
+- Default: `false`

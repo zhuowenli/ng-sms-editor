@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "./node_modules/.bin/bili -w --format es,cjs,umd,umd-min --plugin html",
     "build": "rm -rf dist && ./node_modules/.bin/bili --format es,cjs,umd,umd-min --plugin html",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp ./node_modules/angular/angular.min.js ./dist/ && cp ./assets/template.html ./dist/index.html",
     "deploy": "gh-pages -d dist",
     "publish": "npm publish --registry http://registry.npmjs.org"
   },
