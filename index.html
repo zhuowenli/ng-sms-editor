@@ -1,1 +1,75 @@
-<!DOCTYPE html><html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>ng-sms-editor</title> <style>.custom-header{display:block;text-align:right}.custom-footer{display:block}</style> <link rel="stylesheet" href="ng-sms-editor.a7d2c316.css"></head> <body> <div ng-controller="ctrl"> <ng-sms-editor sms-options="smsOptions"> <slot-header class="custom-header">自定义头部</slot-header> <slot-footer class="custom-footer">自定义底部</slot-footer> </ng-sms-editor> </div> <script src="angular.min.f786de7a.js"></script> <script src="ng-sms-editor.64df3694.js"></script> <script>var app=angular.module("module",["ng-sms-editor"]);app.controller("ctrl",["$scope",function(e){e.smsOptions={content:"#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：",sign_content:"淘宝",labels:[{name:"#店铺名称#",type:"placeholder",placeholder:"无敌美店"},{name:"#买家姓名#",type:"placeholder",placeholder:"张三三"},{name:"#买家昵称#",type:"placeholder",placeholder:"tb88888_2017"}]},window.vm=e.smsOptions,e.$watch("smsOptions.content",function(e){console.log(e)})}]),angular.element().ready(function(){var e=document.getElementsByTagName("body");angular.bootstrap(e,[app.name])});</script> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ng-sms-editor</title>
+    <style>
+        body{
+            padding: 20px;
+        }
+        .custom-header{
+            display: block;
+            text-align: right;
+        }
+        .custom-footer{
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" href="./ng-sms-editor.css">
+</head>
+<body>
+    <div ng-controller="ctrl">
+        <ng-sms-editor sms-options="smsOptions">
+            <slot-header class="custom-header">自定义头部</slot-header>
+            <slot-footer class="custom-footer">自定义底部</slot-footer>
+        </ng-sms-editor>
+    </div>
+    <script src="./angular.min.js"></script>
+    <script src="./ng-sms-editor.js"></script>
+    <script>
+        var app = angular.module('app', ['hlg.component']);
+
+        app.controller("ctrl", ["$scope", function($scope) {
+            $scope.smsOptions = {
+                content: '#买家昵称#你好，#店铺名称#周年庆，全场宝贝3折起，更有精美礼品1000套免费送，先到先得。抢购链接：',
+                sign_content: '淘宝',
+                labels: [
+                    {
+                        name: '#店铺名称#',
+                        type: 'placeholder',
+                        placeholder: '无敌美店'
+                    },
+                    {
+                        name: '#买家姓名#',
+                        type: 'placeholder',
+                        placeholder: '张三三'
+                    },
+                    {
+                        name: '#买家昵称#',
+                        type: 'placeholder',
+                        placeholder: 'tb88888_2017'
+                    },
+                ],
+                showPreview: true,
+            };
+
+            window.vm = $scope.smsOptions;
+
+            $scope.$watch('smsOptions.content', function(res) {
+                console.log(res);
+            });
+
+            $scope.$on('NG:SMS:EDITOR', (e, res) => {
+                console.log(res);
+            });
+        }]);
+
+        angular.element().ready(function () {
+            var context = document.getElementsByTagName('body');
+            angular.bootstrap(context, [app.name]);
+        });
+    </script>
+</body>
+</html>
